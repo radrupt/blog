@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Description-->
+    
+        <meta name="description" content="http2的优点">
+    
+    
+        <link rel="icon" href="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/favicon.png">
+    
+    <!--Author-->
+    
+        <meta name="author" content="Radrupt">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="http2">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="http2的优点">
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="life">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+
+    <meta name="twitter:card" content="summary">
+    
+
+    <!-- Title -->
+    
+    <title>http2 - life</title>
+
+    <!-- Tachyons Core CSS -->
+    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-91436027-2', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-1161841467683282",
+          enable_page_level_ads: true
+      });
+    </script>
+</head>
+
+
+<body>
+
+<!-- Main Content -->
+<!-- Banner -->
+<!-- Banner -->
+<div class="w-100 bg-1 ph5-ns ph3 text-light">
+    
+    <nav class="db dt-l w-100 mw8 center border-box pv3">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/blog/" title="life">
+            <img src="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/logo.png" class="dib h3" alt="life">
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/blog/" title="首页">
+                    首页
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="https://tool.radru.com" title="工具">
+                    工具
+                </a>
+            
+        </div>
+    </nav>
+
+    <!-- Title -->
+    <div class="w-100 mw8 center vh-40 dt">
+        <div class="dtc v-mid white">
+            <h1 class="f1-l f2-m tc tc-m tl-ns">http2</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-02-08</p>
+        </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="relative w-100 mw8 center white dn dn-m db-ns">
+        <i class="header-icon fa fa-file-text-o"></i>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
+    <div class="content">
+        <div class="mw8 center">
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+
+                    <!-- Main Post Content -->
+                    <p>谈论http2的优势，是一定要先说下http1的缺点的  </p>
+<pre><code>1. 连接无法复用，导致重复的tcp连接开销，慢启动无法充分利用带宽
+2. request header体积过大，压缩率不高。当cookie过大时会突出这个问题
+3. 浏览器限制了请求同一个域名建立连接的次数，也就意味着如果页面请求资源过多，将造成堵塞
+</code></pre><p>此后各路人马想出来多种优化方法，比如</p>
+<pre><code>1. 文件打包合并，小的图片转base64嵌入img里，多个图片合并成一个图片，使用多域名加载资源来减少同一个域名资源的请求次数
+2. 通过keep-alive技术来复用连接，减少tcp连接开销，但是串行复用，即一个请求结束才能进行下一个请求
+3. 使用cookie free，即主站使用一个二级域名，静态资源使用另一个二级域名来访问，来避免不必要的cookie消耗网络资源，或者分别使用两个不同的顶级域名下的域名
+4. google的spdy
+</code></pre><p>经过数年的等待，终于http2出来了，提供了一系列振奋工程师的power</p>
+<pre><code>1. 首部压缩，减少head的大小
+2. 多路复用，多个请求公用一个连接，且请求并行发出，具体而言http2将请求的http1里的stream分成多个frame交错的发给接收方
+3. 资源加载优先级
+4. server push,允许服务器主动发送资源
+</code></pre><p>多路复用，意味着减少请求次数的工程方案没有意义了</p>
+<p>不过这里要注意http2并不是会绝对的让页面显示看起来更快，如果页面有大文件需要加载，比如a,b,c,d，其中c是大文件，那么由于并行加载，a，b的加载时间可能会更慢。注意这个场景里资源并不多，所以http1的情况下，会并行4个连接加载4个资源，http2的情况下会1个连接并行加载4个资源，http1的情况下，可能a，b很快显示出来了，但是http2的情况下可能a，b的最后一个frame会和c的最后一个frame一起到达客户端，就导致a，b显示的慢一些。</p>
+
+                    
+                    <!-- Tags Bottom -->
+                    
+                    
+                    <!-- Comments -->
+                    
+<div id="disqus_thread" class="mt5">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+                </div>
+                
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/avatar.png" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="Radrupt">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 2: Categories -->
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>Recent Posts</h3>
+    
+        
+            <p>
+                <a href="/blog/2019/09/05/the-log/">the-log</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/04/iterm快捷键/">iterm快捷键</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/04/vscode快捷键/">vscode快捷键</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/03/摆脱鼠标的束缚使用chrome/">摆脱鼠标的束缚使用chrome</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/05/22/2019任务清单/">2019任务清单</a>
+            </p>
+        
+    
+</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="bg-1 ph2 ph5-ns pv5">
+        <div class="mv8">
+            <div class="center tc">
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="mailto:wang.d933@gmail.com" target="_blank">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="f6 f5-ns center tc white pt5 fw3">
+                @radrupt | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                <a href="http://www.beian.miit.gov.cn">苏ICP备16015602</a>
+            </div>
+        </div>
+    </div>
+
+<!-- After Footer -->
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https-radru-com';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+
+</html>

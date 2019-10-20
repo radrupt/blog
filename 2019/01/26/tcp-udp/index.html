@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Description-->
+    
+        <meta name="description" content="tcp,udp,三次握手，四次握手">
+    
+    
+        <link rel="icon" href="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/favicon.png">
+    
+    <!--Author-->
+    
+        <meta name="author" content="Radrupt">
+    
+
+    <!--Open Graph Title-->
+    
+        <meta property="og:title" content="tcp-udp">
+    
+
+    <!--Open Graph Description-->
+    
+        <meta property="og:description" content="tcp,udp,三次握手，四次握手">
+    
+
+    <!--Open Graph Site Name-->
+    <meta property="og:site_name" content="life">
+
+    <!--Type page-->
+    
+        <meta property="og:type" content="article">
+    
+
+    <!--Page Cover-->
+    
+
+    <meta name="twitter:card" content="summary">
+    
+
+    <!-- Title -->
+    
+    <title>tcp-udp - life</title>
+
+    <!-- Tachyons Core CSS -->
+    <link rel="stylesheet" href="//unpkg.com/tachyons/css/tachyons.min.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/blog/css/style.css">
+
+    <!-- Google Analytics -->
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-91436027-2', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-1161841467683282",
+          enable_page_level_ads: true
+      });
+    </script>
+</head>
+
+
+<body>
+
+<!-- Main Content -->
+<!-- Banner -->
+<!-- Banner -->
+<div class="w-100 bg-1 ph5-ns ph3 text-light">
+    
+    <nav class="db dt-l w-100 mw8 center border-box pv3">
+        <a class="db dtc-l v-mid link dim w-100 w-25-l tc tl-l mb2 mb0-l white" href="/blog/" title="life">
+            <img src="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/logo.png" class="dib h3" alt="life">
+        </a>
+        <div class="db dtc-l v-mid w-100 w-75-l tc tr-l">
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="/blog/" title="首页">
+                    首页
+                </a>
+            
+                <a class="link dim f6 f5-l dib mr3 mr4-l white" href="https://tool.radru.com" title="工具">
+                    工具
+                </a>
+            
+        </div>
+    </nav>
+
+    <!-- Title -->
+    <div class="w-100 mw8 center vh-40 dt">
+        <div class="dtc v-mid white">
+            <h1 class="f1-l f2-m tc tc-m tl-ns">tcp-udp</h1>
+            <p class="f4 fw3 pab-100px tc tc-m tl-ns">2019-01-26</p>
+        </div>
+    </div>
+
+    <!-- Icon -->
+    <div class="relative w-100 mw8 center white dn dn-m db-ns">
+        <i class="header-icon fa fa-file-text-o"></i>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="w-100 ph2 ph4-m ph5-l mv5 mv6-l">
+    <div class="content">
+        <div class="mw8 center">
+            <div class="cf">
+                <div class="fl w-100 w-70-l mw7 left fw3 lh-copy pr4-ns pr0-m post-content">
+                    <!-- Tags Vertical -->
+                    
+
+                    <!-- Main Post Content -->
+                    <blockquote>
+<p>本文会从协议内容和基本套接字编程来介绍tcp和udp</p>
+</blockquote>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><h3 id="tcp-transmission-control-protocol-诞生"><a href="#tcp-transmission-control-protocol-诞生" class="headerlink" title="tcp(transmission control protocol)诞生"></a>tcp(transmission control protocol)诞生</h3><p>随着computer communication systems越来越重要，美国军方需要一个通信系统能提供健壮的，可靠的通信。<br>日期：September 1981</p>
+<h3 id="tcp和tcp-ip五层模型的关系"><a href="#tcp和tcp-ip五层模型的关系" class="headerlink" title="tcp和tcp/ip五层模型的关系"></a>tcp和tcp/ip五层模型的关系</h3><p>tcp/ip五层模型指</p>
+<ol>
+<li>应用层</li>
+<li>传输层</li>
+<li>网络层</li>
+<li>数据链路层</li>
+<li>物理层</li>
+</ol>
+<p>tcp属于传输层，即tcp只和应用层和网络层进行数据交换</p>
+<h3 id="那么tcp是什么呢？"><a href="#那么tcp是什么呢？" class="headerlink" title="那么tcp是什么呢？"></a>那么tcp是什么呢？</h3><p>传输控制协议，是一种面向连接的、可靠的、基于字节流的传输层通信协议。</p>
+<h3 id="tcp提供的功能？"><a href="#tcp提供的功能？" class="headerlink" title="tcp提供的功能？"></a>tcp提供的功能？</h3><ol>
+<li><p>Basic Data Transfer</p>
+<p> tcp能将应用层的8位字节流stream分段为segment传给ip层，tcp存在一个缓冲区,因此通常情况下接收方会等缓冲区满了，再传给上层应用，可以使用push方式通知接收方立即将接收到的含有psh字段的报文以及缓冲数据传给上层应用，而不用等待缓冲区满了</p>
+</li>
+<li><p>Reliability</p>
+<p> tcp需能重新发送数据，当传输的数据损坏，丢失，重复发送的时候。tcp是通过</p>
+<ol>
+<li>在发送端发送的segment里增加sequence number避免重复</li>
+<li>在发送端发送的segment里增加checksum校验和字段来检测损坏</li>
+<li>在接收端返回的segment返回ack来告知接收成功</li>
+<li>发送端使用timer来检测丢失</li>
+<li>发送端使用缓冲区，出现问题从缓冲区里拿出该数据再次发送</li>
+</ol>
+</li>
+<li><p>Flow Control</p>
+<p> 流量控制，就是控制tcp发送端一次发送多少数据到receiver。具体而言使用了一个名叫‘滑动窗口’的概念.其中“window size”指由于允许发送方充分的利用带宽一次发送多个segment到接收端，而不是发送一个segment后等待响应再发送，显然前者效率更高，但是这也带来了一个问题，就是接收方会将数据先放入缓冲区，因此会出现缓冲区快满了的情况，此时多余的数据就无法缓存，那么就需要一个机制来动态的控制发送方每次发送数据的大小。</p>
+<p> 而滑动的意思则是：<br> 对于接收端指接收窗口，窗口内的数据包括</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 当前未传给上层的数据</span><br><span class="line">2. 未返回发送端ack的数据</span><br><span class="line">3. 未排好序的数据，比如1，2，4那么4就是未排好序的数据</span><br></pre></td></tr></table></figure>
+<p> 对于发送端指发送窗口，窗口内的数据包括</p>
+   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1. 发送但是还没有收到ack的数据</span><br><span class="line">2. 未发送但是准备发送的数据（接收端返回的win size&gt;0）</span><br><span class="line">3. 未发送且还不可以发送的数据（接收端返回的win size == 0）</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Multiplexing</p>
+<p> 直译就是多路复用的意思。<br> 再看下tcp的scope：</p>
+<blockquote>
+<p>The TCP is intended to provide a reliable <strong>process-to-process</strong> communication service in a multinetwork environment.  The TCP is intended to be a <strong>host-to-host</strong> protocol in common use in multiple networks.</p>
+</blockquote>
+<p> 那么host-to-host很容易只需要ip+协议即可进行tcp连接，而process-to-process则需要使用ip+协议+port才可确定（port就是在这种场景下由tcp协议提供），具体而言就是使用socket来在process-to-process的传输层和应用层之间做一层处理，来对应用层友好,比如create，listen，accept，connect，read和write等等。<br> 但是多路复用体是如何体现的呢？注意这里的process-to-proces是n-1的，即n个客户端process和服务端process建立tcp连接，即多路，复用的意思则是只需要一个socket即可将多个tcp连接和应用层进行交互。</p>
+<h3 id="tcp的连接与释放"><a href="#tcp的连接与释放" class="headerlink" title="tcp的连接与释放"></a>tcp的连接与释放</h3></li>
+<li>3次握手连接</li>
+</ol>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><p><a href="https://tools.ietf.org/html/rfc793#page-1" target="_blank" rel="noopener">tcp参考rfc793</a><br><a href="https://tools.ietf.org/html/rfc768" target="_blank" rel="noopener">udp参考rfc768</a><br><a href="https://tools.ietf.org/html/rfc8085" target="_blank" rel="noopener">udp参考rfc8085</a></p>
+
+                    
+                    <!-- Tags Bottom -->
+                    
+                    
+                    <!-- Comments -->
+                    
+<div id="disqus_thread" class="mt5">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+
+
+
+                </div>
+                
+                <div class="fl w-100 w-30-l center fw3 lh-copy pl4-ns tl black-50">
+                    
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 1: About -->
+                    <div class="mt5 mt0-l">
+    <article class="dt db-l mw8 mw8-m mw5-ns center ml0-l bg-white mv3">
+        <div class="dn dtc-m db-l v-mid tc pr4 pr0-l" style="min-width: 6rem;">
+            <img src="https://s-radrupt.oss-cn-shanghai.aliyuncs.com/a/blog/avatar.png" class="mb4-l br-100 h3 w3 h4-l w4-l dib" title="Radrupt">
+        </div>
+        <div class="dtc db-l v-mid lh-copy measure center f6 black-50 tj">
+            
+        </div>
+    </article>
+</div>
+
+                    <hr class="dn-l mw4 black-50 mt5">
+                    
+                    <!-- Widget 2: Categories -->
+                    
+
+                    <!-- Widget 3: Recent Posts -->
+                    <div class="mt5 tc tl-l">
+    <h3>Recent Posts</h3>
+    
+        
+            <p>
+                <a href="/blog/2019/09/05/the-log/">the-log</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/04/iterm快捷键/">iterm快捷键</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/04/vscode快捷键/">vscode快捷键</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/08/03/摆脱鼠标的束缚使用chrome/">摆脱鼠标的束缚使用chrome</a>
+            </p>
+        
+    
+        
+            <p>
+                <a href="/blog/2019/05/22/2019任务清单/">2019任务清单</a>
+            </p>
+        
+    
+</div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<div class="bg-1 ph2 ph5-ns pv5">
+        <div class="mv8">
+            <div class="center tc">
+                
+                    <div class="dib mh3">
+                        <a class="f3 f2-ns white dim" href="mailto:wang.d933@gmail.com" target="_blank">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </div>
+                
+            </div>
+            <div class="f6 f5-ns center tc white pt5 fw3">
+                @radrupt | Design & Hexo <a class="link dim white" href="http://www.codeblocq.com/">Jonathan Klughertz</a>
+                <a href="http://www.beian.miit.gov.cn">苏ICP备16015602</a>
+            </div>
+        </div>
+    </div>
+
+<!-- After Footer -->
+<!-- Disqus Comments -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https-radru-com';
+
+    (function(){
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</body>
+
+</html>
